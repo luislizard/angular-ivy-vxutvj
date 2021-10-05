@@ -81,7 +81,6 @@
                 [loading]="isFacebookLoading"
                 [disabled]="isAuthLoading || isGoogleLoading"
                 [icon]="'facebook'"
-                (click)="registerByFacebook()"
             >
                 Sign up using Facebook
             </app-button>
@@ -91,7 +90,6 @@
                 [disabled]="isAuthLoading || isFacebookLoading"
                 [icon]="'google'"
                 [color]="'danger'"
-                (click)="registerByGoogle()"
             >
                 Sign up using Google+
             </app-button>

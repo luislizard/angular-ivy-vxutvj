@@ -36,50 +36,6 @@ export class AppService {
         }
     }
 
-    async loginByGoogle() {
-        try {
-            const token = await Gatekeeper.loginByGoogle();
-            localStorage.setItem('token', token);
-            await this.getProfile();
-            this.router.navigate(['/']);
-        } catch (error) {
-            this.toastr.error(error.response.data.message);
-        }
-    }
-
-    async registerByGoogle() {
-        try {
-            const token = await Gatekeeper.registerByGoogle();
-            localStorage.setItem('token', token);
-            await this.getProfile();
-            this.router.navigate(['/']);
-        } catch (error) {
-            this.toastr.error(error.response.data.message);
-        }
-    }
-
-    async loginByFacebook() {
-        try {
-            const token = await Gatekeeper.loginByFacebook();
-            localStorage.setItem('token', token);
-            await this.getProfile();
-            this.router.navigate(['/']);
-        } catch (error) {
-            this.toastr.error(error.response.data.message);
-        }
-    }
-
-    async registerByFacebook() {
-        try {
-            const token = await Gatekeeper.registerByFacebook();
-            localStorage.setItem('token', token);
-            await this.getProfile();
-            this.router.navigate(['/']);
-        } catch (error) {
-            this.toastr.error(error.response.data.message);
-        }
-    }
-
     async getProfile() {
         try {
             this.user = await this.userService.getProfile();
@@ -87,11 +43,11 @@ export class AppService {
             this.logout();
             throw error;
         }
+        console.log(this.user)
     }
 
     logout() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('gatekeeper_token');
+        localStorage.removeItem(environment.LOCALSTORAGE_IDENTIFIER);
         this.user = null;
         this.router.navigate(['/login']);
     }

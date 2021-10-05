@@ -1,3 +1,4 @@
+import { AdminGuard } from './guards/admin.guard';
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {MainComponent} from '@modules/main/main.component';
@@ -16,19 +17,24 @@ const routes: Routes = [
     {
         path: '',
         component: MainComponent,
+        canLoad: [AdminGuard],
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
+
         children: [
             {
                 path: 'profile',
+                canLoad: [AdminGuard],
                 component: ProfileComponent
             },
             {
                 path: 'blank',
+                canLoad: [AdminGuard],
                 component: BlankComponent
             },
             {
                 path: '',
+                canLoad: [AdminGuard],
                 component: DashboardComponent
             }
         ]
