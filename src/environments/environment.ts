@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false
+    production: false,
+    LOCALSTORAGE_IDENTIFIER: 'auth-token',
+    API_URL: 'http://caminhoparaoback.com'
 };
 
 /*

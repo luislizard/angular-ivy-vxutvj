@@ -1,7 +1,10 @@
+import { UserService } from './user.service';
+import { AuthService } from './auth.service';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Gatekeeper} from 'gatekeeper-client-sdk';
+import { environment } from 'environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -9,12 +12,12 @@ import {Gatekeeper} from 'gatekeeper-client-sdk';
 export class AppService {
     public user: any = null;
 
-    constructor(private router: Router, private toastr: ToastrService) {}
+    constructor(private router: Router, private toastr: ToastrService, private auth: AuthService, private userService: UserService) {}
 
     async loginByAuth({email, password}) {
         try {
-            const token = await Gatekeeper.loginByAuth(email, password);
-            localStorage.setItem('token', token);
+            const token = await this.auth.loginByAuth(email, password);
+            localStorage.setItem(environment.LOCALSTORAGE_IDENTIFIER, token);
             await this.getProfile();
             this.router.navigate(['/']);
         } catch (error) {
@@ -24,7 +27,7 @@ export class AppService {
 
     async registerByAuth({email, password}) {
         try {
-            const token = await Gatekeeper.registerByAuth(email, password);
+            const token = await this.auth.registerByAuth(email, password);
             localStorage.setItem('token', token);
             await this.getProfile();
             this.router.navigate(['/']);
@@ -79,7 +82,7 @@ export class AppService {
 
     async getProfile() {
         try {
-            this.user = await Gatekeeper.getProfile();
+            this.user = await this.userService.getProfile();
         } catch (error) {
             this.logout();
             throw error;
